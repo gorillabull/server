@@ -23,7 +23,12 @@ http.createServer(function (req, res) {
             var now = time.getHours() + " " + time.getMinutes() + " " + time.getSeconds() + " ";
 
             console.log(now + " hiiii");
-            res.write("gg");
+            if (req.url.includes("lol")) {
+                res.writeHead(200, { "Content-Type": "text/plain" });
+                res.end("gg");
+                
+            }
+            
         }
 
 
@@ -215,10 +220,15 @@ http.createServer(function (req, res) {
 
           
             */
+            var ipAddress = "http://70.173.116.47:81/";
+            var uri = "lol";
+            var reqAddr = ipAddress + uri;
+            reqAddr = "\"" + reqAddr + "\"";
             res.write("<!DOCTYPE html>");
             res.write("<html>");
             res.write("<body>");
-            res.write("");
+            res.write("<div id='demo1'>");
+            res.write("</div>");
             res.write("<div id='demo'>");
             res.write("<h1>The XMLHttpRequest Object</h1>");
             res.write("<button type='button' onclick='loadDoc()'>Change Content</button>");
@@ -229,11 +239,11 @@ http.createServer(function (req, res) {
             res.write("var xhttp = new XMLHttpRequest();");
             res.write("xhttp.onreadystatechange = function() {");
             res.write("if (this.readyState == 4 && this.status == 200) {");
-            res.write("document.getElementById('demo').innerHTML =");
+            res.write("document.getElementById('demo1').innerHTML =");
             res.write("this.responseText;");
             res.write("}");
             res.write("};");
-            res.write("xhttp.open('GET', 'http://localhost:1337/', true);"); //http://localhost:1337/y=5&aja
+            res.write("xhttp.open('GET', "+reqAddr + ", true);"); 
             res.write("xhttp.send();");
             res.write("}");
             res.write("</script>");
@@ -275,12 +285,17 @@ http.createServer(function (req, res) {
        return res.end();
      });
      */
-}).listen(1337);
+}).listen(81, "0.0.0.0", function(err) {
+    if (err) return console.log(err);
+console.log("Listening!", "81");
+});
 
 server.on('request', function (req, res) { //'request'
 
 });
 
-
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 
 
 
