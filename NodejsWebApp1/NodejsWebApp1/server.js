@@ -15,10 +15,16 @@ http.createServer(function (req, res) {
 
     if (req.method == 'GET') {
 
-        state = 4;
-        console.log("hiii");
 
+        if (req.url != '/') {
+            state = 4;
+            // res.write("hello");
+            var time = new Date();
+            var now = time.getHours() + " " + time.getMinutes() + " " + time.getSeconds() + " ";
 
+            console.log(now + " hiiii");
+            res.write("gg");
+        }
 
 
 
@@ -227,8 +233,8 @@ http.createServer(function (req, res) {
             res.write("this.responseText;");
             res.write("}");
             res.write("};");
-            res.write("xhttp.open('GET', 'u=5&aja', true);");
-            res.write("xhttp.send(u=5&aja);");
+            res.write("xhttp.open('GET', 'http://localhost:1337/', true);"); //http://localhost:1337/y=5&aja
+            res.write("xhttp.send();");
             res.write("}");
             res.write("</script>");
             res.write("");
