@@ -8,6 +8,8 @@ var server = http.createServer();
 
 var path = require('path');
 
+var PORTiD = 1337; //change this based on location 
+
 http.createServer(function (req, res) {
     var state = 0;
     var body;
@@ -145,7 +147,15 @@ http.createServer(function (req, res) {
         }
         
         */
-            res.write("<html>");
+            fs.readFile('html1.html', function (err, data) {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.write(data);
+                res.end();
+               
+            });
+            break;
+/*
+                        res.write("<html>");
             res.write("<html>");
             res.write("<body>");
             res.write("<form    method='POST'>");
@@ -168,8 +178,10 @@ http.createServer(function (req, res) {
 
 
             res.end();
-            break;
+           
 
+            break;
+             */
         }
 
 
@@ -224,6 +236,7 @@ http.createServer(function (req, res) {
             var uri = "lol";
             var reqAddr = ipAddress + uri;
             reqAddr = "\"" + reqAddr + "\"";
+            
             res.write("<!DOCTYPE html>");
             res.write("<html>");
             res.write("<body>");
@@ -285,7 +298,7 @@ http.createServer(function (req, res) {
        return res.end();
      });
      */
-}).listen(81, "0.0.0.0", function(err) {
+}).listen(PORTiD, "0.0.0.0", function(err) {
     if (err) return console.log(err);
 console.log("Listening!", "81");
 });
