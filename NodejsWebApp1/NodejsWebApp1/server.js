@@ -7,6 +7,54 @@ var querystring = require('querystring');
 var server = http.createServer();
 
 var path = require('path');
+var https = require('https');
+
+
+function CMC1() {
+
+    while (true) {
+        var end = Date.now() + 5000
+
+        https.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/', (resp) => {
+            let data = '';
+
+            // A chunk of data has been recieved.
+            resp.on('data', (chunk) => {
+                data += chunk;
+            });
+
+            resp.on('end', () => {
+                console.log(JSON.parse(data));
+                fs.writeFile("text.txt", JSON.parse(data).explanation);
+            });
+
+
+        });
+
+        while (true) {
+            if (Date.now > end) {
+                break;
+            }
+        }
+
+    }
+    
+
+
+}
+
+
+
+/*TIMEOUTS
+setTimeout(function () {
+  console.log('boo')
+}, 100)
+var end = Date.now() + 5000
+while (Date.now() < end) ;
+console.log('imma let you finish but blocking the event loop is the best bug of all TIME')
+
+*/
+
 
 http.createServer(function (req, res) {
     var state = 0;
@@ -26,12 +74,28 @@ http.createServer(function (req, res) {
             if (req.url.includes("lol")) {
                 res.writeHead(200, { "Content-Type": "text/plain" });
                 res.end("gg");
-                
+
             }
-            
+
         }
 
 
+
+    }
+
+    if (req.method == 'POST') {
+        var body = '';
+        req.on('data,', function (data) {
+            body += data;
+            console.log(data);
+            if (body.length > 1e6) {
+                req.connection.destroy();
+            }
+        });
+
+        req.on('end', function () {
+            console.log(body);
+        });
 
     }
 
@@ -219,7 +283,22 @@ http.createServer(function (req, res) {
               
 
           
+            
+            CMC1();
             */
+
+
+            fs.readFile("html1.html", function (err, data) {
+                if (err) {
+                    console.log("fatal error");
+                } else {
+                    if (data.includes("html")) {
+                        console.log("we read it!!!");
+                    }
+                }
+            });
+
+
             var ipAddress = "http://70.173.116.47:81/";
             var uri = "lol";
             var reqAddr = ipAddress + uri;
