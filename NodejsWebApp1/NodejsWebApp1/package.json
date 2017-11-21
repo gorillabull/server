@@ -5,5 +5,8 @@
   "main": "server.js",
   "author": {
     "name": "vasilevl"
+  },
+  "dependencies": {
+    "request": "^2.83.0"
   }
 }

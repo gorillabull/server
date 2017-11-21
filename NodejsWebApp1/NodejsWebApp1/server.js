@@ -56,7 +56,7 @@ console.log('imma let you finish but blocking the event loop is the best bug of 
 */
 
 
-var PORTiD = 1337; //change this based on location 
+var PORTiD = 81; //change this based on location 
 
 http.createServer(function (req, res) {
     var state = 0;
@@ -84,21 +84,30 @@ http.createServer(function (req, res) {
 
 
     }
+    
+    
 
-    if (req.method == 'POST') {
-        var body = '';
-        req.on('data,', function (data) {
-            body += data;
-            console.log(data);
-            if (body.length > 1e6) {
-                req.connection.destroy();
-            }
-        });
+    if (req.url.includes("pos")) {
+        if (req.method == 'POST') {
+            
+            console.log("post request received");
+            console.log(req.body);
+            
+            var body = '';
+            req.on('data,', function (data) {
+                body += data;
+                console.log(data);
+                if (body.length > 1e6) {
+                    req.connection.destroy();
+                }
+            });
+            
+            req.on('end', function () {
 
-        req.on('end', function () {
-            console.log(body);
-        });
-
+                console.log("post request end " + body);
+            });
+            res.end("ok");
+        }
     }
 
 
@@ -379,7 +388,7 @@ http.createServer(function (req, res) {
      */
 }).listen(PORTiD, "0.0.0.0", function(err) {
     if (err) return console.log(err);
-console.log("Listening!", "81");
+console.log("Listening!", PORTiD.toString());
 });
 
 server.on('request', function (req, res) { //'request'
